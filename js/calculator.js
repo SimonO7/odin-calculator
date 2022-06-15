@@ -1,10 +1,12 @@
 const display = document.querySelector(".display");
 
+display.textContent = "0";
 let operandOne = 0;
 let operation = 0;
 
-let waitingForNewInput = false;
+let waitingForNewInput = true;
 let waitingForSecondOperand = false;
+let decimalAvailable = true;
 
 function add(operandOne, operandTwo) {
     return operandOne + operandTwo;
@@ -45,6 +47,7 @@ function operate(operandOne, operandTwo, operator) {
 }
 
 function displayNumber(event) {
+    //If waiting for new input, clear display and show digits instead of appending to old string
     if (waitingForNewInput) {
         display.textContent = event.target.id;
         waitingForNewInput = false;
@@ -55,9 +58,11 @@ function displayNumber(event) {
 }
 
 function clearDisplay() {
-    display.textContent = "";
+    display.textContent = "0";
     operandOne = 0; 
     operation = 0;
+    decimalAvailable = true;
+    waitingForNewInput = true;
 }
 
 function storeNum(event) {
@@ -78,16 +83,33 @@ function storeNum(event) {
         waitingForSecondOperand = true;
     }
     waitingForNewInput = true;
+    //Activate decimal again
+    decimalAvailable = true;
+}
+
+function toggleDecimal() {
+    //check if decimal btn is active for current operand.
+    //if so, add decimal to current display string.
+    if (decimalAvailable && waitingForNewInput) {
+        display.textContent = "."
+        waitingForNewInput = false;
+    }
+    else if (decimalAvailable) {
+        display.textContent += "."
+    }
+    decimalAvailable = false;
 }
 
 function main() {
     const digitsButtons = document.querySelectorAll(".digits");
     const clearButton = document.querySelector("#clearDisplay");
     const operators = document.querySelectorAll(".operators");
+    const decimalBtn = document.querySelector(".decimal")
 
     digitsButtons.forEach((button) => button.addEventListener("click", displayNumber));
     clearButton.addEventListener("click", clearDisplay);
     operators.forEach((button) => button.addEventListener("click", storeNum));
+    decimalBtn.addEventListener("click", toggleDecimal);
 }
 
 main();
