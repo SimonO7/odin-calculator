@@ -87,7 +87,7 @@ function storeNum(event) {
     decimalAvailable = true;
 }
 
-function toggleDecimal() {
+function addDecimal() {
     //check if decimal btn is active for current operand.
     //if so, add decimal to current display string.
     if (decimalAvailable && waitingForNewInput) {
@@ -109,7 +109,7 @@ function main() {
     digitsButtons.forEach((button) => button.addEventListener("click", displayNumber));
     clearButton.addEventListener("click", clearDisplay);
     operators.forEach((button) => button.addEventListener("click", storeNum));
-    decimalBtn.addEventListener("click", toggleDecimal);
+    decimalBtn.addEventListener("click", addDecimal);
 }
 
 main();
