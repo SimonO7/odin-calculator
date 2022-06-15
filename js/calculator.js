@@ -1,7 +1,7 @@
 const display = document.querySelector(".display");
 
-let operandOne = 1;
-let operation = 1;
+let operandOne = 0;
+let operation = 0;
 
 let waitingForNewInput = false;
 let waitingForSecondOperand = false;
@@ -56,15 +56,21 @@ function displayNumber(event) {
 
 function clearDisplay() {
     display.textContent = "";
-    operandOne = 1; 
-    operation = 1;
+    operandOne = 0; 
+    operation = 0;
 }
 
 function storeNum(event) {
     if (waitingForSecondOperand) {
         operandOne = operate(operandOne, Number(display.textContent), operation);
-        operation = event.target.id;
         display.textContent = operandOne;
+        //If equal sign is pressed, don't need to store the operation. It means compute done.
+        if (event.target.id === "equal") {
+            waitingForSecondOperand = false;
+        }
+        else {
+            operation = event.target.id;
+        }
     }
     else {
         operandOne = Number(display.textContent);
@@ -78,16 +84,10 @@ function main() {
     const digitsButtons = document.querySelectorAll(".digits");
     const clearButton = document.querySelector("#clearDisplay");
     const operators = document.querySelectorAll(".operators");
-    const equalBtn = document.querySelector("#equal");
 
     digitsButtons.forEach((button) => button.addEventListener("click", displayNumber));
     clearButton.addEventListener("click", clearDisplay);
     operators.forEach((button) => button.addEventListener("click", storeNum));
-    equalBtn.addEventListener("click", () => {
-        display.textContent = operate(operandOne, Number(display.textContent), operation);
-        waitingForNewInput = true;
-        waitingForSecondOperand = false;
-    });
 }
 
 main();
