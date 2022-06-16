@@ -7,6 +7,7 @@ let operation = "none";
 let waitingForNewInput = true;
 let waitingForOperandTwo = false;
 let decimalAvailable = true;
+let digitsEntered = false;
 
 function add(operandOne, operandTwo) {
     return operandOne + operandTwo;
@@ -58,6 +59,7 @@ function displayNumber(event) {
     else {
         display.textContent += event.target.id;
     }
+    digitsEntered = true;
 }
 
 function clearDisplay() {
@@ -67,10 +69,11 @@ function clearDisplay() {
     decimalAvailable = true;
     waitingForNewInput = true;
     waitingForOperandTwo = false;
+    digitsEntered = false;
 }
 
 function storeNum(event) {
-    if (waitingForOperandTwo) {
+    if (waitingForOperandTwo && digitsEntered) {
         operandOne = operate(operandOne, Number(display.textContent), operation);
         display.textContent = operandOne;
         operation = event.target.id;
@@ -83,6 +86,7 @@ function storeNum(event) {
     waitingForNewInput = true;
     //Activate decimal again
     decimalAvailable = true;
+    digitsEntered = false;
 }
 
 function addDecimal() {
