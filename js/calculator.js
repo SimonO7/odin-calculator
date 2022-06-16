@@ -62,7 +62,12 @@ function displayNumber(event) {
     digitsEntered = true;
 }
 
-function clearDisplay() {
+function clearCurrentEntry() {
+    display.textContent = "0";
+    waitingForNewInput = true;
+}
+
+function clearAll() {
     display.textContent = "0";
     operandOne = 0; 
     operation = "none";
@@ -103,25 +108,30 @@ function addDecimal() {
 }
 
 function equalSignCompute() {
-    display.textContent = operate(operandOne, Number(display.textContent), operation);
-    waitingForOperandTwo = false;
-    waitingForNewInput = true;
-    decimalAvailable = true;
-    operation = "none";
+    if (digitsEntered) {
+        display.textContent = operate(operandOne, Number(display.textContent), operation);
+        waitingForOperandTwo = false;
+        waitingForNewInput = true;
+        decimalAvailable = true;
+        digitsEntered = false;
+        operation = "none";
+    }  
 }
 
 function main() {
-    const digitsButtons = document.querySelectorAll(".digits");
-    const clearButton = document.querySelector("#clearDisplay");
+    const digitsBtns = document.querySelectorAll(".digits");
+    const clearAllBtn = document.querySelector("#clearAll");
     const operators = document.querySelectorAll(".operators");
     const decimalBtn = document.querySelector(".decimal")
     const equalBtn = document.querySelector("#equal")
+    const clearEntryBtn = document.querySelector("#clearEntry");
 
-    digitsButtons.forEach((button) => button.addEventListener("click", displayNumber));
-    clearButton.addEventListener("click", clearDisplay);
+    digitsBtns.forEach((button) => button.addEventListener("click", displayNumber));
+    clearAllBtn.addEventListener("click", clearAll);
     operators.forEach((button) => button.addEventListener("click", storeNum));
     decimalBtn.addEventListener("click", addDecimal);
     equalBtn.addEventListener("click", equalSignCompute);
+    clearEntryBtn.addEventListener("click", clearCurrentEntry);
 }
 
 main();
