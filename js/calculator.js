@@ -43,9 +43,6 @@ function operate(operandOne, operandTwo, operator) {
         case "divide":
             result = divide(operandOne, operandTwo);
             break;
-        case "none":
-            result = operandTwo;
-            break;
     }
     return result;
 }
@@ -108,7 +105,7 @@ function addDecimal() {
 }
 
 function equalSignCompute() {
-    if (digitsEntered) {
+    if (waitingForOperandTwo && digitsEntered) {
         display.textContent = operate(operandOne, Number(display.textContent), operation);
         waitingForOperandTwo = false;
         waitingForNewInput = true;
