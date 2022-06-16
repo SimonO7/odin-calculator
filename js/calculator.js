@@ -5,7 +5,7 @@ let operandOne = 1;
 let operation = "none";
 
 let waitingForNewInput = true;
-let waitingForSecondOperand = false;
+let waitingForOperandTwo = false;
 let decimalAvailable = true;
 
 function add(operandOne, operandTwo) {
@@ -66,11 +66,11 @@ function clearDisplay() {
     operation = "none";
     decimalAvailable = true;
     waitingForNewInput = true;
-    waitingForSecondOperand = false;
+    waitingForOperandTwo = false;
 }
 
 function storeNum(event) {
-    if (waitingForSecondOperand) {
+    if (waitingForOperandTwo) {
         operandOne = operate(operandOne, Number(display.textContent), operation);
         display.textContent = operandOne;
         operation = event.target.id;
@@ -78,7 +78,7 @@ function storeNum(event) {
     else {
         operandOne = Number(display.textContent);
         operation = event.target.id;
-        waitingForSecondOperand = true;
+        waitingForOperandTwo = true;
     }
     waitingForNewInput = true;
     //Activate decimal again
@@ -100,7 +100,7 @@ function addDecimal() {
 
 function equalSignCompute() {
     display.textContent = operate(operandOne, Number(display.textContent), operation);
-    waitingForSecondOperand = false;
+    waitingForOperandTwo = false;
     waitingForNewInput = true;
     decimalAvailable = true;
     operation = "none";
