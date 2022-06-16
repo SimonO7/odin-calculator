@@ -1,8 +1,8 @@
 const display = document.querySelector(".display");
 
 display.textContent = "0";
-let operandOne = 0;
-let operation = 0;
+let operandOne = 1;
+let operation = "none";
 
 let waitingForNewInput = true;
 let waitingForSecondOperand = false;
@@ -42,6 +42,9 @@ function operate(operandOne, operandTwo, operator) {
         case "divide":
             result = divide(operandOne, operandTwo);
             break;
+        case "none":
+            result = operandTwo;
+            break;
     }
     return result;
 }
@@ -60,22 +63,17 @@ function displayNumber(event) {
 function clearDisplay() {
     display.textContent = "0";
     operandOne = 0; 
-    operation = 0;
+    operation = "none";
     decimalAvailable = true;
     waitingForNewInput = true;
+    waitingForSecondOperand = false;
 }
 
 function storeNum(event) {
     if (waitingForSecondOperand) {
         operandOne = operate(operandOne, Number(display.textContent), operation);
         display.textContent = operandOne;
-        //If equal sign is pressed, don't need to store the operation. It means compute done.
-        if (event.target.id === "equal") {
-            waitingForSecondOperand = false;
-        }
-        else {
-            operation = event.target.id;
-        }
+        operation = event.target.id;
     }
     else {
         operandOne = Number(display.textContent);
@@ -100,16 +98,26 @@ function addDecimal() {
     decimalAvailable = false;
 }
 
+function equalSignCompute() {
+    display.textContent = operate(operandOne, Number(display.textContent), operation);
+    waitingForSecondOperand = false;
+    waitingForNewInput = true;
+    decimalAvailable = true;
+    operation = "none";
+}
+
 function main() {
     const digitsButtons = document.querySelectorAll(".digits");
     const clearButton = document.querySelector("#clearDisplay");
     const operators = document.querySelectorAll(".operators");
     const decimalBtn = document.querySelector(".decimal")
+    const equalBtn = document.querySelector("#equal")
 
     digitsButtons.forEach((button) => button.addEventListener("click", displayNumber));
     clearButton.addEventListener("click", clearDisplay);
     operators.forEach((button) => button.addEventListener("click", storeNum));
     decimalBtn.addEventListener("click", addDecimal);
+    equalBtn.addEventListener("click", equalSignCompute);
 }
 
 main();
