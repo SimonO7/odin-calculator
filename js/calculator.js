@@ -129,7 +129,27 @@ function toggleNegativeSign() {
     }
 }
 
+function deleteLastDigit() {
+    //For backspace button. Remove the last digit entered.
+    //Backspace button only works when not waiting for new input 
+    //(ie. cannot delete a digit after a operator is pressed)
+    //If only 1 digit left on display when backspace is pressed, just clear the display.
+    if (!(waitingForNewInput)) {
+        if (display.textContent.length === 1) {
+            clearCurrentEntry();
+        }
+        else {
+            //If deleting a dot, restore the dot's ability to be enter again
+            if (display.textContent[display.textContent.length-1] === ".") {
+                decimalAvailable = true;
+            }
+            display.textContent = display.textContent.slice(0,display.textContent.length-1);
+        }
+    }
+}
+
 function main() {
+    //Select the buttons and add the appropriate event listeners
     const digitsBtns = document.querySelectorAll(".digits");
     const clearAllBtn = document.querySelector("#clearAll");
     const operators = document.querySelectorAll(".operators");
@@ -137,6 +157,7 @@ function main() {
     const equalBtn = document.querySelector("#equal")
     const clearEntryBtn = document.querySelector("#clearEntry");
     const negativeToggleBtn = document.querySelector("#negativeValueToggle")
+    const backspaceBtn = document.querySelector("#backspace")
 
     digitsBtns.forEach((button) => button.addEventListener("click", displayNumber));
     clearAllBtn.addEventListener("click", clearAll);
@@ -145,6 +166,7 @@ function main() {
     equalBtn.addEventListener("click", equalSignCompute);
     clearEntryBtn.addEventListener("click", clearCurrentEntry);
     negativeToggleBtn.addEventListener("click", toggleNegativeSign);
+    backspaceBtn.addEventListener("click", deleteLastDigit);
 }
 
 main();
