@@ -61,11 +61,9 @@ function displayNumber(event) {
 
 function clearCurrentEntry() {
     display.textContent = "0";
-    waitingForNewInput = true;
 }
 
-function clearAll() {
-    display.textContent = "0";
+function clearFlags() {
     operandOne = 0; 
     operation = "none";
     decimalAvailable = true;
@@ -109,11 +107,7 @@ function equalSignCompute() {
     //has been entered. If so, calculate and display result, then reset the flags.
     if (waitingForOperandTwo && digitsEntered) {
         display.textContent = operate(operandOne, Number(display.textContent), operation);
-        waitingForOperandTwo = false;
-        waitingForNewInput = true;
-        decimalAvailable = true;
-        digitsEntered = false;
-        operation = "none";
+        clearFlags();
     }  
 }
 
@@ -164,7 +158,10 @@ function main() {
     const backspaceBtn = document.querySelector("#backspace")
 
     digitsBtns.forEach((button) => button.addEventListener("click", displayNumber));
-    clearAllBtn.addEventListener("click", clearAll);
+    clearAllBtn.addEventListener("click", () => {
+        clearCurrentEntry();
+        clearFlags();
+    });
     operators.forEach((button) => button.addEventListener("click", storeNum));
     decimalBtn.addEventListener("click", addDecimal);
     equalBtn.addEventListener("click", equalSignCompute);
