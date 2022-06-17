@@ -105,6 +105,8 @@ function addDecimal() {
 }
 
 function equalSignCompute() {
+    //When equal sign is pressed, check if it's waiting for operand two or not, as well as if a new digit
+    //has been entered. If so, calculate and display result, then reset the flags.
     if (waitingForOperandTwo && digitsEntered) {
         display.textContent = operate(operandOne, Number(display.textContent), operation);
         waitingForOperandTwo = false;
@@ -115,6 +117,18 @@ function equalSignCompute() {
     }  
 }
 
+function toggleNegativeSign() {
+    //Toggle the negative sign.
+    //If number is already negative, remove the negative symbol
+    //If number is postive, add negative symbol.
+    if (Number(display.textContent) < 0) {
+        display.textContent = display.textContent.slice(1);
+    }
+    else if (Number(display.textContent) > 0) {
+        display.textContent = "-" + display.textContent;
+    }
+}
+
 function main() {
     const digitsBtns = document.querySelectorAll(".digits");
     const clearAllBtn = document.querySelector("#clearAll");
@@ -122,6 +136,7 @@ function main() {
     const decimalBtn = document.querySelector(".decimal")
     const equalBtn = document.querySelector("#equal")
     const clearEntryBtn = document.querySelector("#clearEntry");
+    const negativeToggleBtn = document.querySelector("#negativeValueToggle")
 
     digitsBtns.forEach((button) => button.addEventListener("click", displayNumber));
     clearAllBtn.addEventListener("click", clearAll);
@@ -129,6 +144,7 @@ function main() {
     decimalBtn.addEventListener("click", addDecimal);
     equalBtn.addEventListener("click", equalSignCompute);
     clearEntryBtn.addEventListener("click", clearCurrentEntry);
+    negativeToggleBtn.addEventListener("click", toggleNegativeSign);
 }
 
 main();
