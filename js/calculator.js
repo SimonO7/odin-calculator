@@ -148,6 +148,10 @@ function deleteLastDigit() {
     }
 }
 
+function percentage() {
+    display.textContent = Number(display.textContent)/100;
+}
+
 function main() {
     //Select the buttons and add the appropriate event listeners
     const digitsBtns = document.querySelectorAll(".digits");
@@ -155,7 +159,7 @@ function main() {
     const operators = document.querySelectorAll(".operators");
     const decimalBtn = document.querySelector(".decimal")
     const equalBtn = document.querySelector("#equal")
-    const clearEntryBtn = document.querySelector("#clearEntry");
+    const percentageBtn = document.querySelector("#percent");
     const negativeToggleBtn = document.querySelector("#negativeValueToggle")
     const backspaceBtn = document.querySelector("#backspace")
 
@@ -164,7 +168,7 @@ function main() {
     operators.forEach((button) => button.addEventListener("click", storeNum));
     decimalBtn.addEventListener("click", addDecimal);
     equalBtn.addEventListener("click", equalSignCompute);
-    clearEntryBtn.addEventListener("click", clearCurrentEntry);
+    percentageBtn.addEventListener("click", percentage);
     negativeToggleBtn.addEventListener("click", toggleNegativeSign);
     backspaceBtn.addEventListener("click", deleteLastDigit);
 }
