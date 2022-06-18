@@ -49,7 +49,7 @@ function operate(operandOne, operandTwo, operator) {
 
 function displayNumber(event) {
     //If waiting for new input, clear display and show digits instead of appending to old string
-    if (waitingForNewInput) {
+    if (waitingForNewInput || display.textContent === "0") {
         display.textContent = event.target.id;
         waitingForNewInput = false;
     }
