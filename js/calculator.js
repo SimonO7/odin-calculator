@@ -109,6 +109,9 @@ function addDecimal() {
     if (decimalAvailable && waitingForNewInput) {
         display.textContent = "0."  //If decimal is pressed before other number, add a zero before it to avoid bug with interpreting.
         waitingForNewInput = false;
+        if (equalBtnPressed) {
+            intermediateStepsDisplay.textContent = "";
+        }
     }
     else if (decimalAvailable) {
         display.textContent += "."
