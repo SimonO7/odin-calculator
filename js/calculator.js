@@ -170,13 +170,13 @@ function convertOperatorToSymbol(operation) {
     //Returns: string, the symbol to represent the operation
     switch(operation) {
         case "add":
-            return "+";
+            return "\u002B";
         case "subtract":
-            return "-";
+            return "\u2212";
         case "multiply":
-            return "x";
+            return "\u00D7";
         case "divide":
-            return "/";
+            return "\u00F7";
     }
 }
 function main() {
