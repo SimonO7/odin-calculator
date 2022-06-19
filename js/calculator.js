@@ -1,4 +1,5 @@
 const display = document.querySelector(".display");
+const intermediateStepsDisplay = document.querySelector(".intStepsDisplay");
 
 display.textContent = "0";
 let operandOne = 1;
@@ -8,6 +9,7 @@ let waitingForNewInput = true;
 let waitingForOperandTwo = false;
 let decimalAvailable = true;
 let digitsEntered = false;
+let equalBtnPressed = false;
 
 function add(operandOne, operandTwo) {
     return operandOne + operandTwo;
@@ -29,6 +31,8 @@ function divide(operandOne, operandTwo) {
 }
 
 function operate(operandOne, operandTwo, operator) {
+    //inputs operandOne and operandTwo are numbers. Operator is a string.
+    //Output is number
     let result;
     switch(operator) {
         case "add":
@@ -48,7 +52,12 @@ function operate(operandOne, operandTwo, operator) {
 }
 
 function displayNumber(event) {
+    //What to do when a digit button is pressed
     //If waiting for new input, clear display and show digits instead of appending to old string
+    if (equalBtnPressed) {
+        intermediateStepsDisplay.textContent = ""
+        equalBtnPressed = false;
+    }
     if (waitingForNewInput || display.textContent === "0") {
         display.textContent = event.target.id;
         waitingForNewInput = false;
@@ -60,10 +69,13 @@ function displayNumber(event) {
 }
 
 function clearCurrentEntry() {
+    //Clear the displays
     display.textContent = "0";
+    intermediateStepsDisplay.textContent = ""
 }
 
 function clearFlags() {
+    //Clear the flags
     operandOne = 0; 
     operation = "none";
     decimalAvailable = true;
@@ -73,6 +85,7 @@ function clearFlags() {
 }
 
 function storeNum(event) {
+    //What to do when a operator button is pressed
     if (waitingForOperandTwo && digitsEntered) {
         operandOne = operate(operandOne, Number(display.textContent), operation);
         display.textContent = operandOne;
@@ -83,17 +96,18 @@ function storeNum(event) {
         operation = event.target.id;
         waitingForOperandTwo = true;
     }
+    intermediateStepsDisplay.textContent = `${operandOne} ${convertOperatorToSymbol(operation)}`;
     waitingForNewInput = true;
-    //Activate decimal again
-    decimalAvailable = true;
-    digitsEntered = false;
+    decimalAvailable = true;    //Reactivate decimal button
+    digitsEntered = false;      //Tell program it's now waiting for new digits to be entered
+    equalBtnPressed = false;    //Have to set to allow chaining operations to be displayed
 }
 
 function addDecimal() {
     //check if decimal btn is active for current operand.
     //if so, add decimal to current display string.
     if (decimalAvailable && waitingForNewInput) {
-        display.textContent = "."
+        display.textContent = "0."  //If decimal is pressed before other number, add a zero before it to avoid bug with interpreting.
         waitingForNewInput = false;
     }
     else if (decimalAvailable) {
@@ -106,8 +120,11 @@ function equalSignCompute() {
     //When equal sign is pressed, check if it's waiting for operand two or not, as well as if a new digit
     //has been entered. If so, calculate and display result, then reset the flags.
     if (waitingForOperandTwo && digitsEntered) {
-        display.textContent = operate(operandOne, Number(display.textContent), operation);
+        let operandTwo = Number(display.textContent);
+        display.textContent = operate(operandOne, operandTwo, operation);
+        intermediateStepsDisplay.textContent = `${operandOne} ${convertOperatorToSymbol(operation)} ${operandTwo} =`;
         clearFlags();
+        equalBtnPressed = true;
     }  
 }
 
@@ -146,6 +163,22 @@ function percentage() {
     display.textContent = Number(display.textContent)/100;
 }
 
+function convertOperatorToSymbol(operation) {
+    //Convert operator symbols from its name to the correcy symbol
+    //for display on the intermediate step display
+    //Input: symbol, string: the word of the operation to convert to symbol
+    //Returns: string, the symbol to represent the operation
+    switch(operation) {
+        case "add":
+            return "+";
+        case "subtract":
+            return "-";
+        case "multiply":
+            return "x";
+        case "divide":
+            return "/";
+    }
+}
 function main() {
     //Select the buttons and add the appropriate event listeners
     const digitsBtns = document.querySelectorAll(".digits");
