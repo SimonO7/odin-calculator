@@ -187,7 +187,7 @@ function main() {
     const digitsBtns = document.querySelectorAll(".digits");
     const clearAllBtn = document.querySelector("#clearAll");
     const operators = document.querySelectorAll(".operators");
-    const decimalBtn = document.querySelector(".decimal")
+    const decimalBtn = document.querySelector("#decimal")
     const equalBtn = document.querySelector("#equal")
     const percentageBtn = document.querySelector("#percent");
     const negativeToggleBtn = document.querySelector("#negativeValueToggle")
