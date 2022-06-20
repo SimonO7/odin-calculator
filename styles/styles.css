@@ -51,7 +51,6 @@ body {
 .intStepsDisplay {
     box-sizing: border-box;
     text-align: right;
-    height: 70px;
     padding: 5px 10px;
     overflow: hidden;
     background-color: rgb(140, 160, 140);
@@ -60,10 +59,12 @@ body {
 
 .display {
     font-size: 60px;
+    height: 70px;
 }
 
 .intStepsDisplay {
     font-size: 35px;
+    height: 45px;
 }
 
 .orangeButtons {
