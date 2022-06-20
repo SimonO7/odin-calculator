@@ -150,7 +150,7 @@ function deleteLastDigit() {
     //If only 1 digit left on display when backspace is pressed, just clear the display.
     if (!(waitingForNewInput)) {
         if (display.textContent.length === 1) {
-            clearCurrentEntry();
+            display.textContent = "0";  //Only clear primary display. Don't clear intermediate steps display.
         }
         else {
             //If deleting a dot, restore the dot's ability to be enter again
@@ -182,6 +182,7 @@ function convertOperatorToSymbol(operation) {
             return "\u00F7";
     }
 }
+
 function main() {
     //Select the buttons and add the appropriate event listeners
     const digitsBtns = document.querySelectorAll(".digits");
