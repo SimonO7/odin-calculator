@@ -36,22 +36,27 @@ function operate(operandOne, operandTwo, operator) {
     let result;
     switch(operator) {
         case "add":
+        case "+":
             result = add(operandOne, operandTwo);
             break;
         case "subtract":
+        case "-":
             result = subtract(operandOne, operandTwo);
             break;
         case "multiply":
+        case "*":
             result = multiply(operandOne, operandTwo);
             break;
         case "divide":
+        case "/":
             result = divide(operandOne, operandTwo);
             break;
     }
     return result;
 }
 
-function displayNumber(event) {
+function displayNumber(number) {
+    //Input: number: type string. The number/digit to display
     //What to do when a digit button is pressed
     //If waiting for new input, clear display and show digits instead of appending to old string
     if (equalBtnPressed) {
@@ -59,11 +64,11 @@ function displayNumber(event) {
         equalBtnPressed = false;
     }
     if (waitingForNewInput || display.textContent === "0") {
-        display.textContent = event.target.id;
+        display.textContent = number;
         waitingForNewInput = false;
     }
     else {
-        display.textContent += event.target.id;
+        display.textContent += number;
     }
     digitsEntered = true;
 }
@@ -84,16 +89,17 @@ function clearFlags() {
     digitsEntered = false;
 }
 
-function storeNum(event) {
+function storeNum(operatorPressed) {
+    //Input: operatorPressed: type String. The operator pressed.
     //What to do when a operator button is pressed
     if (waitingForOperandTwo && digitsEntered) {
         operandOne = operate(operandOne, Number(display.textContent), operation);
         display.textContent = operandOne;
-        operation = event.target.id;
+        operation = operatorPressed;
     }
     else {
         operandOne = Number(display.textContent);
-        operation = event.target.id;
+        operation = operatorPressed;
         waitingForOperandTwo = true;
     }
     intermediateStepsDisplay.textContent = `${operandOne} ${convertOperatorToSymbol(operation)}`;
@@ -173,12 +179,16 @@ function convertOperatorToSymbol(operation) {
     //Returns: string, the symbol to represent the operation
     switch(operation) {
         case "add":
+        case "+":
             return "\u002B";
         case "subtract":
+        case "-":
             return "\u2212";
         case "multiply":
+        case "*":
             return "\u00D7";
         case "divide":
+        case "/":
             return "\u00F7";
     }
 }
@@ -194,12 +204,12 @@ function main() {
     const negativeToggleBtn = document.querySelector("#negativeValueToggle")
     const backspaceBtn = document.querySelector("#backspace")
 
-    digitsBtns.forEach((button) => button.addEventListener("click", displayNumber));
+    digitsBtns.forEach((button) => button.addEventListener("click", (event) => displayNumber(event.target.id)));
     clearAllBtn.addEventListener("click", () => {
         clearCurrentEntry();
         clearFlags();
     });
-    operators.forEach((button) => button.addEventListener("click", storeNum));
+    operators.forEach((button) => button.addEventListener("click", (event) => storeNum(event.target.id)));
     decimalBtn.addEventListener("click", addDecimal);
     equalBtn.addEventListener("click", equalSignCompute);
     percentageBtn.addEventListener("click", percentage);
@@ -207,4 +217,20 @@ function main() {
     backspaceBtn.addEventListener("click", deleteLastDigit);
 }
 
+function addKeyboardListeners() {
+    //Add keyboard event listeners
+    document.addEventListener("keydown", function (event) {
+        const keyPressed = event.key;
+        //Number keys
+        if (Number.isInteger(Number(keyPressed))) {
+            displayNumber(keyPressed);
+        }
+        //Operator keys
+        else if (keyPressed === "+" || keyPressed === "-" || keyPressed === "*" || keyPressed === "/") {
+            storeNum(keyPressed);
+        }
+    })
+}
+
 main();
+addKeyboardListeners();
