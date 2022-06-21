@@ -215,22 +215,55 @@ function main() {
     percentageBtn.addEventListener("click", percentage);
     negativeToggleBtn.addEventListener("click", toggleNegativeSign);
     backspaceBtn.addEventListener("click", deleteLastDigit);
+
+    //Add listener to page for keyboard input
+    document.addEventListener("keydown", keyboardListener);
 }
 
-function addKeyboardListeners() {
-    //Add keyboard event listeners
-    document.addEventListener("keydown", function (event) {
-        const keyPressed = event.key;
-        //Number keys
-        if (Number.isInteger(Number(keyPressed))) {
-            displayNumber(keyPressed);
+function keyboardListener(event) {
+    const keyPressed = event.key;
+    //Number buttons
+    if (Number.isInteger(Number(keyPressed)) && keyPressed !== " ") {
+        displayNumber(keyPressed);
+    }
+    else {
+        switch (keyPressed) {
+            //Operator buttons
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+                storeNum(keyPressed);                    
+                break;
+                //Decimal button
+            case ".":
+                addDecimal();
+                break;
+            //Enter or equal key -> equal button
+            case "Enter":
+            case "=":
+                equalSignCompute();
+                break;
+            //Escape key -> clear all
+            case "Escape":
+                clearCurrentEntry();
+                clearFlags();
+                break;
+            //Backspace key -> backspace
+            case "Backspace":
+                deleteLastDigit();
+                break;
+            //Percent key -> percent
+            case "%":
+                percentage();
+                break;
+            //F9 key -> toggle negative
+            case "F9":
+                toggleNegativeSign();
+                break;
         }
-        //Operator keys
-        else if (keyPressed === "+" || keyPressed === "-" || keyPressed === "*" || keyPressed === "/") {
-            storeNum(keyPressed);
-        }
-    })
-}
+    }
+};
 
 main();
-addKeyboardListeners();
+keyboardListener();
