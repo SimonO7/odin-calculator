@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 
 body {
     display: flex;
@@ -9,6 +10,11 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    background-color: aliceblue;
+}
+
+.title {
+    font-family: 'Permanent Marker', cursive;
 }
 
 .calculatorBody,
