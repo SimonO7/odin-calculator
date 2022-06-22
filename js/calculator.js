@@ -76,7 +76,7 @@ function displayNumber(number) {
         display.textContent = number;
         waitingForNewInput = false;
     }
-    else {
+    else if (display.textContent.length < 11) {
         display.textContent += number;
     }
     digitsEntered = true;
