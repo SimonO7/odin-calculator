@@ -66,7 +66,7 @@ function displayNumber(number) {
     //Parameters: number, string: The digit to display.
     //Returns: None. It will modify the display directly.
 
-    //Of equal button was pressed, clear the intermediate steps display as well, and reset the flag.
+    //If equal button was pressed, clear the intermediate steps display as well, and reset the flag.
     if (equalBtnPressed) {
         intermediateStepsDisplay.textContent = ""
         equalBtnPressed = false;
