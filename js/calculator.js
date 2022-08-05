@@ -226,11 +226,11 @@ function main() {
     const digitsBtns = document.querySelectorAll(".digits");
     const clearAllBtn = document.querySelector("#clearAll");
     const operators = document.querySelectorAll(".operators");
-    const decimalBtn = document.querySelector("#decimal")
-    const equalBtn = document.querySelector("#equal")
+    const decimalBtn = document.querySelector("#decimal");
+    const equalBtn = document.querySelector("#equal");
     const percentageBtn = document.querySelector("#percent");
-    const negativeToggleBtn = document.querySelector("#negativeValueToggle")
-    const backspaceBtn = document.querySelector("#backspace")
+    const negativeToggleBtn = document.querySelector("#negativeValueToggle");
+    const backspaceBtn = document.querySelector("#backspace");
 
     digitsBtns.forEach((button) => button.addEventListener("click", (event) => displayNumber(event.target.id)));
     clearAllBtn.addEventListener("click", () => {
